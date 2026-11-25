@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automated Student Wellness Assessment System</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- SCREEN 1: LOGIN SCREEN -->
+  <section id="screen-login" class="screen active">
+    <div class="login-card">
+      <div class="badge">Holy Trinity College of General Santos City</div>
+      <h1>Student Wellness Assessment</h1>
+      <p class="subtitle">Affect-Recognition Decision Support Prototype (Offline Mode)</p>
+
+      <form id="login-form">
+        <label for="role-select">Select Role</label>
+        <select id="role-select" required>
+          <option value="Guidance Counselor">Guidance Counselor (Dr. Elena Reyes)</option>
+          <option value="System Admin">System Admin (Romnick S. Bagus)</option>
+        </select>
+
+        <label for="email-input">Institutional Email</label>
+        <input type="email" id="email-input" value="counselor@htc-gensan.edu.ph" required />
+
+        <label for="password-input">Password</label>
+        <input type="password" id="password-input" value="••••••••••••" required />
+
+        <button type="submit" class="btn-primary full-width">Sign In to Portal</button>
+      </form>
+      <p class="privacy-note">Zero Footage Retention Enabled • In-Memory Telemetry Mode</p>
+    </div>
+  </section>
+
+  <!-- MAIN APPLICATION SHELL (Screens 2, 3, 4, 5) -->
+  <div id="app-shell" class="hidden">
+    <aside class="sidebar">
+      <div class="brand">
+        <h2>ASWA-FAR</h2>
+        <span>Edge Privacy Gate v1.0</span>
+      </div>
+
+      <nav class="nav-links">
+        <button class="nav-btn active" data-target="screen-dashboard">📊 Dashboard & Telemetry</button>
+        <button class="nav-btn" data-target="screen-alerts">🚨 Distress Alerts <span id="alert-badge" class="pill">3</span></button>
+        <button class="nav-btn" data-target="screen-reports">📑 Wellness Reports</button>
+        <button class="nav-btn admin-only" data-target="screen-admin">⚙️ Edge Nodes & Privacy</button>
+      </nav>
+
+      <div class="user-footer">
+        <div id="current-user-name" class="user-name">Dr. Elena Reyes</div>
+        <div id="current-user-role" class="user-role">Guidance Counselor</div>
+        <button id="logout-btn" class="btn-secondary small">Log Out</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <!-- SCREEN 2: GUIDANCE DASHBOARD -->
+      <section id="screen-dashboard" class="view active">
+        <header class="view-header">
+          <div>
+            <h1>Guidance Counselor Dashboard</h1>
+            <p>Real-time de-identified affect telemetry across active campus zones</p>
+          </div>
+          <button id="simulate-stream-btn" class="btn-primary">▶ Simulate Edge Frame Inference</button>
+        </header>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-label">Overall Wellness Index</span>
+            <strong id="kpi-wellness" class="kpi-value good">82.4%</strong>
+            <span class="kpi-sub">Composite zone baseline</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Active Edge Nodes</span>
+            <strong id="kpi-nodes" class="kpi-value">3 / 4</strong>
+            <span class="kpi-sub">RAM-only processing active</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Pending Distress Alerts</span>
+            <strong id="kpi-alerts" class="kpi-value warn">2</strong>
+            <span class="kpi-sub">Requires counselor review</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Social Interaction Density</span>
+            <strong id="kpi-density" class="kpi-value">14</strong>
+            <span class="kpi-sub">Detected ROIs (Zero Storage)</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Live Anonymized Affect Telemetry Stream (<code>affect_log</code>)</h3>
+            <span class="status-tag">RAM Purge Verified • 0 Bytes Video Stored</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Campus Zone</th>
+                <th>Session Hash</th>
+                <th>Neutral</th>
+                <th>Anxiety</th>
+                <th>Sadness</th>
+                <th>Stress</th>
+                <th>Density</th>
+              </tr>
+            </thead>
+            <tbody id="telemetry-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: DISTRESS ALERTS -->
+      <section id="screen-alerts" class="view">
+        <header class="view-header">
+          <div>
+            <h1>Automated Distress Alerts</h1>
+            <p>Proactive threshold triggers for internalizing psychological distress</p>
+          </div>
+        </header>
+
+        <div id="alerts-container" class="cards-stack"></div>
+      </section>
+
+      <!-- SCREEN 4: WELLNESS ASSESSMENT REPORTS -->
+      <section id="screen-reports" class="view">
+        <header class="view-header">
+          <div>
+            <h1>Student Wellness Assessment Reports</h1>
+            <p>Aggregated zone-level longitudinal behavioral summaries</p>
+          </div>
+          <button id="generate-report-btn" class="btn-primary">+ Generate New Zone Report</button>
+        </header>
+
+        <div class="panel">
+          <table>
+            <thead>
+              <tr>
+                <th>Report ID</th>
+                <th>Campus Zone</th>
+                <th>Period</th>
+                <th>Wellness Index</th>
+                <th>Dominant Affect</th>
+                <th>Anomaly</th>
+                <th>Generated By</th>
+              </tr>
+            </thead>
+            <tbody id="reports-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SCREEN 5: ADMIN & EDGE PRIVACY CONFIGURATION -->
+      <section id="screen-admin" class="view">
+        <header class="view-header">
+          <div>
+            <h1>Edge Camera Nodes & Privacy Governance</h1>
+            <p>Configure hardware monitoring zones and audit volatile RAM purge compliance</p>
+          </div>
+        </header>
+
+        <div class="panel">
+          <h3>Campus Monitoring Zones (<code>campus_zone</code>)</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Zone ID</th>
+                <th>Zone Name</th>
+                <th>Camera Node Code</th>
+                <th>Privacy Pipeline</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="zones-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
