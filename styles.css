@@ -18,14 +18,17 @@
   font-family: "Segoe UI", system-ui, sans-serif;
 }
 
+/* Fluid base scaling: automatically adjusts relative to viewport width on zoom */
 html {
-  font-size: 14px; /* Keeps proportions compact and crisp */
+  font-size: clamp(12px, 0.85vw + 4px, 16px);
 }
 
 body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .hidden { display: none !important; }
@@ -36,16 +39,16 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 1rem;
+  padding: 1.25rem;
 }
 
 .login-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 2rem;
+  border-radius: 0.75rem;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
   width: 100%;
-  max-width: 400px;
+  max-width: 28rem;
 }
 
 .badge {
@@ -59,7 +62,7 @@ body {
   margin-bottom: 0.75rem;
 }
 
-.login-card h1 { font-size: 1.45rem; margin-bottom: 0.25rem; }
+.login-card h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
 .subtitle { color: var(--muted); font-size: 0.875rem; margin-bottom: 1.5rem; }
 
 label {
@@ -75,7 +78,7 @@ input, select, textarea {
   border: 1px solid var(--border);
   color: var(--text);
   padding: 0.6rem 0.8rem;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   margin-bottom: 1rem;
   font-size: 0.9rem;
 }
@@ -87,34 +90,31 @@ input, select, textarea {
   margin-top: 1rem;
 }
 
-/* App Layout */
+/* Fluid App Layout */
 #app-shell {
   display: flex;
   min-height: 100vh;
-  max-width: 1440px; /* Prevents ultra-wide stretching */
-  margin: 0 auto;    /* Centers layout on wide screens */
-  border-left: 1px solid var(--border);
-  border-right: 1px solid var(--border);
+  width: 100%;
 }
 
 .sidebar {
-  width: 240px;
-  flex-shrink: 0;    /* Prevents left text clipping */
+  width: clamp(12.5rem, 18vw, 16.5rem);
+  flex-shrink: 0;
   background: var(--surface);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 1rem;
+  padding: 1.25rem 0.85rem;
 }
 
 .brand h2 { color: var(--primary); font-size: 1.3rem; }
 .brand span { font-size: 0.78rem; color: var(--muted); }
 
 .nav-links {
-  margin-top: 1.75rem;
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.4rem;
   flex: 1;
 }
 
@@ -123,13 +123,14 @@ input, select, textarea {
   border: none;
   color: var(--muted);
   text-align: left;
-  padding: 0.7rem 0.85rem;
-  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-size: 0.9rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .nav-btn:hover, .nav-btn.active {
@@ -143,6 +144,7 @@ input, select, textarea {
   font-size: 0.72rem;
   padding: 0.1rem 0.45rem;
   border-radius: 999px;
+  flex-shrink: 0;
 }
 
 .user-footer {
@@ -156,9 +158,8 @@ input, select, textarea {
 /* Main Content */
 .main-content {
   flex: 1;
-  min-width: 0;
-  padding: 1.75rem 2rem;
-  overflow-y: auto;
+  min-width: 0; /* Critical: prevents flex child from overflowing screen on zoom */
+  padding: clamp(1rem, 2.2vw, 2rem);
 }
 
 .view { display: none; }
@@ -170,10 +171,10 @@ input, select, textarea {
   align-items: center;
   margin-bottom: 1.5rem;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
-.view-header h1 { font-size: 1.5rem; }
+.view-header h1 { font-size: clamp(1.2rem, 1.8vw, 1.65rem); }
 .view-header p { color: var(--muted); font-size: 0.88rem; }
 
 /* Buttons */
@@ -183,7 +184,7 @@ input, select, textarea {
   font-weight: 600;
   border: none;
   padding: 0.6rem 1rem;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-size: 0.88rem;
 }
@@ -194,16 +195,16 @@ input, select, textarea {
   color: var(--text);
   border: 1px solid var(--border);
   padding: 0.45rem 0.85rem;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-size: 0.85rem;
 }
 .full-width { width: 100%; }
 
-/* KPIs & Panels */
+/* Auto-wrapping KPI Cards (adapts smoothly to any zoom level) */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -211,7 +212,7 @@ input, select, textarea {
 .kpi-card, .panel, .alert-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 0.65rem;
   padding: 1.15rem;
 }
 
@@ -237,7 +238,13 @@ input, select, textarea {
   color: var(--primary);
   font-size: 0.75rem;
   padding: 0.25rem 0.6rem;
-  border-radius: 6px;
+  border-radius: 0.35rem;
+}
+
+/* Table Container keeps tables contained inside screen when zoomed in */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
 }
 
 table {
@@ -250,6 +257,7 @@ th, td {
   text-align: left;
   padding: 0.65rem 0.75rem;
   border-bottom: 1px solid var(--border);
+  white-space: nowrap;
 }
 
 th { color: var(--muted); font-weight: 600; }
@@ -263,19 +271,41 @@ th { color: var(--muted); font-weight: 600; }
 .alert-top {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-bottom: 0.5rem;
 }
 
 .sev-high { color: var(--danger); font-weight: 700; }
 .sev-mod { color: var(--warn); font-weight: 700; }
 
-/* Responsive scaling for smaller laptops/tablets */
-@media (max-width: 1024px) {
-  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
+/* Automatically switches sidebar to top navigation bar when zoomed in past ~150% */
 @media (max-width: 768px) {
-  #app-shell { flex-direction: column; }
-  .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
-  .kpi-grid { grid-template-columns: 1fr; }
+  #app-shell {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 1rem;
+  }
+  .nav-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .nav-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+  .user-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+  .user-role { margin-bottom: 0; }
+  .user-footer .full-width { width: auto; }
 }
